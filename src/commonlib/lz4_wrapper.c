@@ -48,6 +48,7 @@ static void LZ4_copy8(void *dst, const void *src)
 /* ARM32 needs to be a special snowflake to prevent GCC from coalescing the
  * access into LDRD/STRD (which don't support unaligned accesses). */
 #ifdef __arm__	/* ARMv < 6 doesn't support unaligned accesses at all. */
+
 	#if defined(__COREBOOT_ARM_ARCH__) && __COREBOOT_ARM_ARCH__ < 6
 		int i;
 		for (i = 0; i < 8; i++)
@@ -67,7 +68,7 @@ static void LZ4_copy8(void *dst, const void *src)
 			: "=m"(*(uint32_t *)(dst + 4))
 			: [x1]"r"(x1), [dst]"r"(dst));
 	#endif
-#elif defined(__riscv__)
+#elif defined(__riscv__) || defined(__riscv)
 	/* RISC-V implementations may trap on any unaligned access. */
 	int i;
 	for (i = 0; i < 8; i++)
