@@ -1,0 +1,23 @@
+config SOC_SIFIVE_E300
+	select ARCH_RISCV
+	select ARCH_BOOTBLOCK_RISCV
+	select ARCH_VERSTAGE_RISCV
+	select ARCH_ROMSTAGE_RISCV
+	select ARCH_RAMSTAGE_RISCV
+	select BOOTBLOCK_CONSOLE
+    select HAVE_UART_SPECIAL
+	bool
+	default n
+
+if SOC_SIFIVE_E300
+
+config RISCV_ARCH
+    string
+    default "rv32imac"
+
+config RISCV_ABI
+    string
+    default "ilp32"
+
+
+endif

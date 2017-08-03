@@ -1,0 +1,47 @@
+##
+## This file is part of the coreboot project.
+##
+## Copyright (C) 2009 Uwe Hermann <uwe@hermann-uwe.de>
+##
+## This program is free software; you can redistribute it and/or modify
+## it under the terms of the GNU General Public License as published by
+## the Free Software Foundation; version 2 of the License.
+##
+## This program is distributed in the hope that it will be useful,
+## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
+##
+if BOARD_SIFIVE_FREEDOM_E300_HIFIVE1
+
+config BOARD_SPECIFIC_OPTIONS # dummy
+	def_bool y
+	select SOC_SIFIVE_E300
+	select BOARD_ROMSIZE_KB_4096
+#	select BOOT_DEVICE_NOT_SPI_FLASH
+
+config MAINBOARD_DIR
+	string
+	default sifive/freedom-e300-hifive1
+
+config MAINBOARD_PART_NUMBER
+	string
+	default "freedom e300 hifive1"
+
+config MAX_CPUS
+	int
+	default 1
+
+config MAINBOARD_VENDOR
+	string
+	default "SiFive"
+
+config ROMSTAGE_NONEED_LOAD
+    bool
+    default y
+
+config RAMSTAGE_NONEED_LOAD
+    bool
+    default y   
+
+endif # BOARD_SIFIVE_FREEDOM_E300_HIFIVE1

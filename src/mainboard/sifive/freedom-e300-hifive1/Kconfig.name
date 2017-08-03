@@ -1,0 +1,2 @@
+config BOARD_SIFIVE_FREEDOM_E300_HIFIVE1
+	bool "freedom e300 hifive1"

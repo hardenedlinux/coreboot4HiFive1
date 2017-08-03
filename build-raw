@@ -1,0 +1,40 @@
+#! /bin/sh
+
+./util/crossgcc/xgcc/bin/riscv64-elf-objcopy -O binary build/cbfs/fallback/bootblock.elf bootblock.bin
+./util/crossgcc/xgcc/bin/riscv64-elf-objcopy -O binary build/cbfs/fallback/romstage.elf  romstage.bin
+./util/crossgcc/xgcc/bin/riscv64-elf-objcopy -O binary build/cbfs/fallback/ramstage.elf  ramstage.bin
+./util/crossgcc/xgcc/bin/riscv64-elf-objcopy -O binary hello                             hello.bin
+
+./util/crossgcc/xgcc/bin/riscv64-elf-as bootblock-raw.S -o bootblock-raw.o
+./util/crossgcc/xgcc/bin/riscv64-elf-as romstage-raw.S  -o romstage-raw.o
+./util/crossgcc/xgcc/bin/riscv64-elf-as ramstage-raw.S  -o ramstage-raw.o
+./util/crossgcc/xgcc/bin/riscv64-elf-as hello-raw.S     -o hello-raw.o
+
+./util/crossgcc/xgcc/bin/riscv64-elf-ld -T coreboot-raw.ld bootblock-raw.o romstage-raw.o ramstage-raw.o hello-raw.o -o coreboot-raw.elf
+
+
+
+
+PROGRAM=coreboot-raw.elf
+
+riscv_openocd=hifive1-tools/openocd
+riscv_openocd_cfg=hifive1-tools/openocd.cfg
+riscv_gdb=hifive1-tools/riscv64-unknown-elf-gdb
+
+pkill openocd >/dev/null 2>&1
+
+$riscv_openocd -f $riscv_openocd_cfg >/dev/null 2>&1 &
+
+$riscv_gdb $PROGRAM \
+    --batch \
+    -ex "set remotetimeout 500" \
+    -ex "target extended-remote localhost:3333" \
+    -ex "monitor reset halt" \
+    -ex "monitor flash protect 0 64 last off" \
+    -ex "load" \
+    -ex "monitor resume" \
+    -ex "monitor shutdown" \
+    -ex "quit" && echo Successfully uploaded $PROGRAM 
+
+rm *.bin *.o *.elf
+
