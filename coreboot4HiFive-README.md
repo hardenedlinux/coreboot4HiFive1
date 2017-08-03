@@ -621,12 +621,12 @@ riscv64-unknown-elf-gdb coreboot-raw.elf \
 
 设定：
 
-- Mainboard $\Rightarrow$ Mainboard vendor 选择SiFive
-- Mainboard $\Rightarrow$ Mainboard model 选择Freedom e300 hifive1
-- 取消选择 General setup $\Rightarrow$ Compress ramstage with LZMA
-- 取消选择 General setup $\Rightarrow$ Compress romstage and versrage with LZ4
-- 取消选择 Console $\Rightarrow$ Send console output to CBMEM buffer
-- 取消选择 Console $\Rightarrow$ Send POST codes to an external device
+- Mainboard —> Mainboard vendor 选择SiFive
+- Mainboard —> Mainboard model 选择Freedom e300 hifive1
+- 取消选择 General setup —> Compress ramstage with LZMA
+- 取消选择 General setup —> Compress romstage and versrage with LZ4
+- 取消选择 Console —> Send console output to CBMEM buffer
+- 取消选择 Console —> Send POST codes to an external device
 
 ### 编译
 
