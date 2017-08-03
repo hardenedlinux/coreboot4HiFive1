@@ -445,6 +445,7 @@ void main(void)
 	 * cies on C code. So we can call them here early, and don't
 	 * have to worry at which point we can start to use Ada.
 	 */
+
 	ramstage_adainit();
 
 	/* TODO: Understand why this is here and move to arch/platform code. */
@@ -480,12 +481,22 @@ void main(void)
 	exception_init();
 	threads_initialize();
 
+#if CONFIG_SOC_SIFIVE_E300
+
+	printk(BIOS_SPEW,"\n\nloading payload...\n\n");
+	((void (*)(void))0x20430000)();
+	while(1){};
+	boot_state_schedule_static_entries();
+	bs_walk_state_machine();
+#else
+
 	/* Schedule the static boot state entries. */
 	boot_state_schedule_static_entries();
 
 	bs_walk_state_machine();
 
 	die("Boot state machine failure.\n");
+#endif
 }
 
 

@@ -59,7 +59,11 @@ void handle_supervisor_call(trapframe *tf) {
 			returnValue = mcall_set_timer(arg0);
 			break;
 		case MCALL_QUERY_MEMORY:
+#if __riscv_xlen==32
+			printk(BIOS_DEBUG, "Querying memory, CPU #%d...\n", arg0);
+#elif __riscv_xlen==64
 			printk(BIOS_DEBUG, "Querying memory, CPU #%lld...\n", arg0);
+#endif
 			returnValue = mcall_query_memory(arg0, (memory_block_info*) arg1);
 			break;
 		default:
@@ -133,7 +137,7 @@ static void gettimer(void)
 	if (!time)
 		die("Got timer interrupt but found no timer.");
 	res = query_config_string(config, "core{0{0{timecmp");
-	timecmp = (void *)get_uint(res);
+	timecmp = (void *)(uintptr_t)get_uint(res);
 	if (!timecmp)
 		die("Got a timer interrupt but found no timecmp.");
 }

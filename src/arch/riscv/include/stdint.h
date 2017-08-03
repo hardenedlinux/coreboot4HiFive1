@@ -69,8 +69,15 @@ typedef uint8_t bool;
 #define true	1
 #define false	0
 
+
 /* Types for `void *' pointers.  */
-typedef s64             intptr_t;
-typedef u64		uintptr_t;
+#if __riscv_xlen == 32
+typedef s32     intptr_t;
+typedef u32     uintptr_t;
+#elif __riscv_xlen == 64
+typedef s64     intptr_t;
+typedef u64     uintptr_t;
+#endif
+
 
 #endif /* RISCV_STDINT_H */

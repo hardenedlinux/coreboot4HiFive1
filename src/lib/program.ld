@@ -66,7 +66,11 @@
 	*(.rodata.*);
 	. = ALIGN(ARCH_POINTER_ALIGN_SIZE);
 	_etext = .;
+#if CONFIG_SOC_SIFIVE_E300
+}
+#else
 } : to_load
+#endif
 
 #if ENV_RAMSTAGE && IS_ENABLED(CONFIG_COVERAGE)
 .ctors . : {
@@ -81,7 +85,12 @@
 
 /* Include data, bss, and heap in that order. Not defined for all stages. */
 #if ARCH_STAGE_HAS_DATA_SECTION
+
+#if CONFIG_SOC_SIFIVE_E300
+.data 0x80000000 : AT ( ADDR (.text) + SIZEOF (.text) ) {
+#else
 .data . : {
+#endif
 	. = ALIGN(ARCH_CACHELINE_ALIGN_SIZE);
 	_data = .;
 

@@ -276,7 +276,7 @@ void initVirtualMemory(void) {
 	// about RISCV is still in flux.
 	printk(BIOS_DEBUG, "Initializing virtual memory...\n");
 	uintptr_t physicalStart = 0x80000000;
-	uintptr_t virtualStart = 0xffffffff80000000;
+	uintptr_t virtualStart = 0;//0xffffffff80000000;
 	init_vm(virtualStart, physicalStart, (pte_t *)_pagetables);
 	mb();
 	flush_tlb();
@@ -316,5 +316,6 @@ void mstatus_init(void)
 	// Until we trust our toolchain use the hardcoded constants.
 	// These were in flux and people who get the older toolchain
 	// will have difficult-to-debug failures.
-	write_csr(/*mcounteren*/0x306, 7);
+
+	//write_csr(/*mcounteren*/0x306, 7);
 }

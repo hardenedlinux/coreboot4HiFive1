@@ -17,6 +17,7 @@
 
 #include <arch/encoding.h>
 #include <mcall.h>
+#include <bits.h>
 
 .section ".text._start", "ax", %progbits
 
@@ -34,7 +35,31 @@ _start:
 	# poison the stack
 	la t1, _stack
 	li t0, 0xdeadbeef
-	sd t0, 0(t1)
+	STORE t0, 0(t1)
+
+
+  la a0,_etext
+  la a1,_data
+  la a2,_edata
+  bgeu a1,a2,2f
+1:
+  lw t0,(a0)
+  sw t0,(a1)
+  addi a0,a0,4
+  addi a1,a1,4
+  bltu a1,a2,1b
+2:
+
+  la a0,_bss
+  la a1,_ebss
+  bgeu a0,a1,2f
+1:
+  sw zero,(a0)
+  addi a0,a0,4
+  bltu a0,a1,1b
+2:
+
+  call bootblock_soc_early_init
 
 	# make room for HLS and initialize it
 	addi sp, sp, -HLS_SIZE

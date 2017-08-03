@@ -91,6 +91,18 @@ void flush_tlb(void);
 		);							\
 	}
 
+#if __riscv_xlen == 32
+DEFINE_MPRV_READ(mprv_read_u8, uint8_t, lbu)
+DEFINE_MPRV_READ(mprv_read_u16, uint16_t, lhu)
+DEFINE_MPRV_READ(mprv_read_u32, uint32_t, lw)
+DEFINE_MPRV_READ(mprv_read_long, long, lw)
+DEFINE_MPRV_READ(mprv_read_ulong, unsigned long, lw)
+DEFINE_MPRV_WRITE(mprv_write_u8, uint8_t, sb)
+DEFINE_MPRV_WRITE(mprv_write_u16, uint16_t, sh)
+DEFINE_MPRV_WRITE(mprv_write_u32, uint32_t, sw)
+DEFINE_MPRV_WRITE(mprv_write_long, long, sw)
+DEFINE_MPRV_WRITE(mprv_write_ulong, unsigned long, sw)
+#elif __riscv_xlen == 64
 DEFINE_MPRV_READ(mprv_read_u8, uint8_t, lbu)
 DEFINE_MPRV_READ(mprv_read_u16, uint16_t, lhu)
 DEFINE_MPRV_READ(mprv_read_u32, uint32_t, lwu)
@@ -103,6 +115,9 @@ DEFINE_MPRV_WRITE(mprv_write_u32, uint32_t, sw)
 DEFINE_MPRV_WRITE(mprv_write_u64, uint64_t, sd)
 DEFINE_MPRV_WRITE(mprv_write_long, long, sd)
 DEFINE_MPRV_WRITE(mprv_write_ulong, unsigned long, sd)
+#endif
+
+
 
 #undef DEFINE_MPRV_READ
 #undef DEFINE_MPRV_WRITE

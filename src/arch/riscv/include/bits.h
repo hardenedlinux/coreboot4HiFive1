@@ -47,10 +47,19 @@
 #define STR(x) XSTR(x)
 #define XSTR(x) #x
 
+
+
+#if __riscv_xlen == 32
+# define SLL32    ssl
+# define STORE    sw
+# define LOAD     lw
+# define LOG_REGBYTES 2
+#elif __riscv_xlen == 64
 # define SLL32    sllw
 # define STORE    sd
 # define LOAD     ld
 # define LOG_REGBYTES 3
+#endif
 
 #define REGBYTES (1 << LOG_REGBYTES)
 

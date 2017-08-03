@@ -21,8 +21,9 @@
  */
 
 #if !IS_ENABLED(CONFIG_ARCH_X86) /* work around lack of --gc-sections on x86 */
-int __clzsi2(u32 a);
-int __clzsi2(u32 a)
+
+__attribute__((weak)) int __clzsi2(u32 a);
+__attribute__((weak)) int __clzsi2(u32 a)
 {
 	static const u8 four_bit_table[] = {
 		[0x0] = 4, [0x1] = 3, [0x2] = 2, [0x3] = 2,
@@ -49,4 +50,5 @@ int __clzsi2(u32 a)
 
 	return r + four_bit_table[a >> 28];
 }
+
 #endif

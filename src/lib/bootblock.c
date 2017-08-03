@@ -49,7 +49,11 @@ asmlinkage void bootblock_main_with_timestamp(uint64_t base_timestamp)
 	bootblock_soc_init();
 	bootblock_mainboard_init();
 
+#if CONFIG_SOC_SIFIVE_E300
+	((void (*)(void))0x20410000)();
+#else
 	run_romstage();
+#endif
 }
 
 void main(void)

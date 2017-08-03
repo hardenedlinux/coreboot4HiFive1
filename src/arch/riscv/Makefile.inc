@@ -15,9 +15,9 @@
 ##
 ################################################################################
 
-riscv_flags = -I$(src)/arch/riscv/ -mcmodel=medany
+riscv_flags = -I$(src)/arch/riscv/ -mcmodel=medany -march=$(CONFIG_RISCV_ARCH) -mabi=$(CONFIG_RISCV_ABI)
 
-riscv_asm_flags =
+riscv_asm_flags = -march=$(CONFIG_RISCV_ARCH) -mabi=$(CONFIG_RISCV_ABI)
 
 ifeq ($(CONFIG_ARCH_RAMSTAGE_RISCV),y)
 check-ramstage-overlap-regions += stack
@@ -45,6 +45,9 @@ bootblock-y += \
 	$(top)/src/lib/memmove.c \
 	$(top)/src/lib/memset.c \
 	$(top)/src/commonlib/configstring.c
+
+
+COMPILER_RT_bootblock = /home/merle/workspaces/coreboot/util/crossgcc/xgcc/lib/gcc/riscv64-elf/6.3.0/rv32imac/ilp32/libgcc.a
 
 $(objcbfs)/bootblock.debug: $$(bootblock-objs)
 	@printf "    LINK       $(subst $(obj)/,,$(@))\n"
@@ -76,6 +79,8 @@ romstage-y += \
 romstage-$(CONFIG_COLLECT_TIMESTAMPS) += timestamp.c
 
 # Build the romstage
+
+COMPILER_RT_romstage = /home/merle/workspaces/coreboot/util/crossgcc/xgcc/lib/gcc/riscv64-elf/6.3.0/rv32imac/ilp32/libgcc.a
 
 $(objcbfs)/romstage.debug: $$(romstage-objs)
 	@printf "    LINK       $(subst $(obj)/,,$(@))\n"
@@ -114,6 +119,8 @@ ramstage-$(CONFIG_COLLECT_TIMESTAMPS) += timestamp.c
 ramstage-srcs += src/mainboard/$(MAINBOARDDIR)/mainboard.c
 
 # Build the ramstage
+
+COMPILER_RT_ramstage = /home/merle/workspaces/coreboot/util/crossgcc/xgcc/lib/gcc/riscv64-elf/6.3.0/rv32imac/ilp32/libgcc.a
 
 $(objcbfs)/ramstage.debug: $$(ramstage-objs)
 	@printf "    CC         $(subst $(obj)/,,$(@))\n"

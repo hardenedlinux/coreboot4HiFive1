@@ -16,10 +16,12 @@
 /* We use ELF as output format. So that we can debug the code in some form. */
 OUTPUT_ARCH(riscv)
 
+/*
 PHDRS
 {
 	to_load PT_LOAD;
 }
+*/
 
 #ifdef __BOOTBLOCK__
 ENTRY(_start)

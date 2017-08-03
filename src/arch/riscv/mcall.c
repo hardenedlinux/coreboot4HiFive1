@@ -99,9 +99,9 @@ void hls_init(uint32_t hart_id)
 	HLS()->hart_id = hart_id;
 
 	res = query_config_string(configstring(), "rtc{addr");
-	HLS()->time = (void *)get_uint(res);
+	HLS()->time = (void *)(uintptr_t)get_uint(res);
 	res = query_config_string(configstring(), "core{0{0{timecmp");
-	HLS()->timecmp = (void *)get_uint(res);
+	HLS()->timecmp = (void *)(uintptr_t)get_uint(res);
 
 	printk(BIOS_SPEW, "Time is %p and timecmp is %p\n",
 	       HLS()->time, HLS()->timecmp);

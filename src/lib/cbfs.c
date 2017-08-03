@@ -95,8 +95,10 @@ size_t cbfs_load_and_decompress(const struct region_device *rdev, size_t offset,
 	case CBFS_COMPRESS_NONE:
 		if (buffer_size < in_size)
 			return 0;
+  printk(BIOS_SPEW,"--[%d %s]--\n",__LINE__,__FILE__);
 		if (rdev_readat(rdev, buffer, offset, in_size) != in_size)
 			return 0;
+  printk(BIOS_SPEW,"--[%d %s]--\n",__LINE__,__FILE__);
 		return in_size;
 
 	case CBFS_COMPRESS_LZ4:
@@ -236,6 +238,16 @@ int cbfs_prog_stage_load(struct prog *pstage)
 	 * running processor. */
 	load = (void *)(uintptr_t)stage.load;
 	entry = (void *)(uintptr_t)stage.entry;
+
+  printk(BIOS_SPEW,"--[%d %s]--\n",__LINE__,__FILE__);
+	printk(BIOS_SPEW,"stage load  : %p\n",load);
+	printk(BIOS_SPEW,"stage entry : %p\n",entry);
+	printk(BIOS_SPEW,"stage size  : %d\n",fsize);
+	{
+		void *mapping = rdev_mmap(fh, foffset, fsize);
+	printk(BIOS_SPEW,"stage map   : %p\n",mapping);
+	}
+
 
 	/* Hacky way to not load programs over read only media. The stages
 	 * that would hit this path initialize themselves. */
