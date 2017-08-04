@@ -609,7 +609,7 @@ riscv64-unknown-elf-gdb coreboot-raw.elf \
 
 ### 代码获取
 
-命令：git clone https://github.com/wxjstz/coreboot4HiFive1.git
+命令：git clone https://github.com/hardenedlinux/coreboot4HiFive1
 
 ### 编译工具链
 
